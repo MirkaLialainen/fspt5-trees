@@ -13,25 +13,52 @@ class Tree {
 
   // adds a child into the tree
   addChild(value) {
+    let newNode = new Tree(value);
     // push a new tree into the current tree's children
+    this.children.push(newNode);
   }
 
   // returns true/false if the value is in the tree
+  // if the tree value matches the value passed in
   contains(value) {
-    // if the tree value matches the value passed in
-    // return true
+    if (this.value === value) {
+      // return true
+      return true;
+    }
     // else
     // loop through all the children
     // call the contains method located on each child (pass the value in)
+    for (let child of this.children) {
+      if (child.contains(value)) {
+        return true;
+      }
+    }
     // return false if not found at all
+    return false;
   }
 
   // applies the function to each child in the tree
-  traverse(fn) {}
+  traverse(fn) {
+    fn(this);
+    for (let child of this.children) {
+      child.traverse(fn);
+    }
+  }
 
   // OPTIONAL
   //return the node with that value if found. Returns null otherwise
-  find(value) {}
+  find(value) {
+    if (this.value === value) {
+      return this;
+    }
+    for (var i = 0; i < this.children.length; i++) {
+      let node = this.children[i].find(value);
+      if (node) {
+        return node;
+      }
+    }
+    return null;
+  }
 
   // OPTIONAL
   //adds a node with "value" as a child of the node with refValue
